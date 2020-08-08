@@ -16,6 +16,8 @@
 * 报表工具：poi 4.1.2
 * websocket spring-boot-starter-websocket（SockJs方式）
 * 其他工具 okhttp 3.14.9、Jackson、 bitwalker 1.21
+#### 容器
+docker：部署了nacos、rocketmq
 #### 数据库
 - redis
 * mysql
