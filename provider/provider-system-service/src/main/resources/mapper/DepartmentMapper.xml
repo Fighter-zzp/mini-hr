@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.cloud.provider.mapper.DepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.zzp.cloud.provider.domain.Department">
+        <!--@mbg.generated generated on Sun Aug 02 20:57:20 CST 2020.-->
+        <!--@Table vhr.department-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parentId" jdbcType="INTEGER" property="parentid"/>
+        <result column="depPath" jdbcType="VARCHAR" property="deppath"/>
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
+        <result column="isParent" jdbcType="BOOLEAN" property="isparent"/>
+    </resultMap>
+
+    <resultMap id="DtoMap" type="com.zzp.cloud.common.dto.cms.DepartmentDto">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="parentId" jdbcType="INTEGER" property="parentId"/>
+        <result column="depPath" jdbcType="VARCHAR" property="depPath"/>
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
+        <result column="isParent" jdbcType="BOOLEAN" property="isParent"/>
+    </resultMap>
+
+    <resultMap id="DepartmentWithChildren" type="com.zzp.cloud.common.dto.cms.DepartmentDto" extends="DtoMap">
+        <collection property="children" ofType="com.zzp.cloud.provider.domain.Department"
+                    select="com.zzp.cloud.provider.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Sun Aug 02 20:57:20 CST 2020.-->
+        id, `name`, parentId, depPath, enabled, isParent
+    </sql>
+
+    <select id="getAllDepartmentsByParentId" resultMap="DepartmentWithChildren">
+        select * from department where parentId=#{pid};
+    </select>
+
+    <!-- 这里使用了存储过程，可以在，mysql上输入：show CREATE procedure 存储过程名（如addDep）; 查看代码-->
+    <select id="addDep" statementType="CALLABLE">
+        call addDep(#{name,mode=IN,jdbcType=VARCHAR},#{parentId,mode=IN,jdbcType=INTEGER},#{enabled,mode=IN,jdbcType=BOOLEAN},#{result,mode=OUT,jdbcType=INTEGER},#{id,mode=OUT,jdbcType=INTEGER})
+    </select>
+    <select id="deleteDepById" statementType="CALLABLE">
+        call deleteDep(#{id,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})
+    </select>
+
+</mapper>

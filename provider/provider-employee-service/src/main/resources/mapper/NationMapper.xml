@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.cloud.provider.mapper.NationMapper">
+  <resultMap id="BaseResultMap" type="com.zzp.cloud.provider.domain.Nation">
+    <!--@mbg.generated generated on Sun Aug 02 18:24:50 CST 2020.-->
+    <!--@Table vhr.nation-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Sun Aug 02 18:24:50 CST 2020.-->
+    id, `name`
+  </sql>
+</mapper>

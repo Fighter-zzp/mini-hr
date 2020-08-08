@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.cloud.provider.mapper.HrMapper">
+  <resultMap id="BaseResultMap" type="com.zzp.cloud.provider.domain.Hr">
+    <!--@mbg.generated generated on Mon Jul 27 19:50:06 CST 2020.-->
+    <!--@Table vhr.hr-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="enabled" jdbcType="BOOLEAN" property="enabled" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="userface" jdbcType="VARCHAR" property="userface" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <resultMap id="DtoMap" type="com.zzp.cloud.common.dto.emp.HrDto">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="CHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="userface" property="userface" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="HrWithRoles" type="com.zzp.cloud.common.dto.emp.HrDto" extends="BaseResultMap">
+        <collection property="roles" ofType="com.zzp.cloud.common.dto.emp.RoleDto">
+            <id column="rid" property="id"/>
+            <result column="rname" property="name"/>
+            <result column="rnameZh" property="nameZh"/>
+        </collection>
+    </resultMap>
+
+  <sql id="Base_Column_List">
+    <!--@mbg.generated generated on Mon Jul 27 19:50:06 CST 2020.-->
+    id, `name`, phone, telephone, address, enabled, username, `password`, userface, remark
+  </sql>
+
+  <select id="findAllHrs" resultMap="HrWithRoles">
+        select hr.id, hr.name, hr.phone, hr.telephone, hr.address, hr.enabled, hr.username, hr.userface,
+        hr.remark,r.`id` as rid,r.`name` as rname,r.`nameZh` as rnameZh from hr left join hr_role hrr on
+        hr.`id`=hrr.`hrid` left join role r on hrr.`rid`=r.`id` where hr.`id`!=#{hrid}
+        <if test="keywords!=null">
+            and hr.name like concat('%',#{keywords},'%')
+        </if>
+        order by hr.id
+   </select>
+
+</mapper>

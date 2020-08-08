@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzp.cloud.provider.mapper.JoblevelMapper">
+    <resultMap id="BaseResultMap" type="com.zzp.cloud.provider.domain.Joblevel">
+        <!--@mbg.generated generated on Tue Aug 04 20:53:40 CST 2020.-->
+        <!--@Table vhr.joblevel-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="titleLevel" jdbcType="OTHER" property="titlelevel"/>
+        <result column="createDate" jdbcType="TIMESTAMP" property="createdate"/>
+        <result column="enabled" jdbcType="BOOLEAN" property="enabled"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated generated on Tue Aug 04 20:53:40 CST 2020.-->
+        id, `name`, titleLevel, createDate, enabled
+    </sql>
+    <delete id="deleteJobLevelsByIds">
+
+    delete from joblevel where id in
+
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

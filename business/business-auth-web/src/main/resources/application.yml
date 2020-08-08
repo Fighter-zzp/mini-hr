@@ -1,0 +1,92 @@
+base:
+  config:
+    nacos:
+      addr: 192.168.247.145
+      port: 8848
+    sentinel:
+      ip: 127.0.0.1
+      port: 8080
+    sql:
+      hostname: 127.0.0.1
+      port: 3306
+  redis:
+    hostname: 127.0.0.1
+    port: 6379
+
+business:
+  oauth2:
+    grant_type: password
+    client_id: client
+    client_secret: secret
+
+server:
+  port: 9001
+
+spring:
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  application:
+    name: business-auth-web
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${base.config.nacos.addr}:${base.config.nacos.port}
+#    sentinel:
+#      transport:
+#        dashboard: ${base.config.sentinel.ip}:${base.config.sentinel.port}
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://${base.config.sql.hostname}:${base.config.sql.port}/mplus_ums_oauth2?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 123456
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 600000
+      maximum-pool-size: 10
+      auto-commit: true
+      pool-name: MyHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    host: ${base.redis.hostname}
+    port: ${base.redis.port}
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+
+dubbo:
+  scan:
+    base-packages: com.zzp.cloud.business.controller,com.zzp.cloud.business.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://${base.config.nacos.addr}:${base.config.nacos.port}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+feign:
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  sentinel:
+    enabled: true
