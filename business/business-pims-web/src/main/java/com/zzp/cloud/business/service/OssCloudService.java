@@ -32,8 +32,8 @@ public class OssCloudService {
      * 请求信息配置
      */
     private static final String ENDPOINT = "oss-cn-shenzhen.aliyuncs.com";
-    private static final String ACCESS_KEY_ID = "LTAI4Fu5q5rkmfp5ChjF7FPU";
-    private static final String ACCESS_KEY_SECRET = "NRDQkwDOeV3Q1airygVS0rUtyG5KlX";
+    private static final String ACCESS_KEY_ID = "xxx";
+    private static final String ACCESS_KEY_SECRET = "xxx";
     private static final String BUCKET_NAME = "zzp-test";
     private static final String DIRECTORY_NAME = "face/";
 
